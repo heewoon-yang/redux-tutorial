@@ -1,36 +1,44 @@
 import React from 'react';
 import './App.css';
-import connect from "react-redux/es/connect/connect";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {updateUser} from "./redux/actions";
 
 
-function App(props) {
+function App() {
 
-  console.log(props)
+  // console.log(props)
+
+  const products = useSelector(state => state.products);
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <p>{props.user}</p>
-      <button onClick={() => props.updateUser('LDK')}>액션 디스패치 테스트</button>
+      <p>{user}</p>
+      <button onClick={() => dispatch(updateUser('LDK'))}>액션 디스패치 테스트</button>
     </div>
   );
 }
 
-const mapStateToProps = (state) => ({
-  //왼쪽이 props,  오른쪽이 store의 state
-  products: state.products,//store에 있는 state
-  user: state.user
-});
+//부모가 자식과 통신하는 방법
+// const mapStateToProps = (state) => ({
+//   //왼쪽이 props,  오른쪽이 store의 state
+//   products: state.products,//store에 있는 state
+//   user: state.user
+// });
 
+//자식이 부모와 통신하는 방법
 //(액션을 디스패치하는) 펑션을 props로 매핑
-const mapActionToProps = (dispatch) => ({
-  //왼쪽이 props, 오른쪽 (액션을 디스패치하는)펑션
-  updateUser : (name) => dispatch(updateUser(name))
-});
+// const mapActionToProps = (dispatch) => ({
+//   //왼쪽이 props, 오른쪽 (액션을 디스패치하는)펑션
+//   updateUser : (name) => dispatch(updateUser(name))//updateUser(name) ==> action임
+// });
 
 // 문법:커링펑션,
 // 개념: Hoc:입력파라메터에 컴퍼넌트를 넣어서 새로운 기능의 컴포넌트를 리턴하는 펑션
-export default connect(mapStateToProps, mapActionToProps)(App);
+// export default connect(mapStateToProps, mapActionToProps)(App);
 
+export default App;
 
 /*
 import React from 'react';
